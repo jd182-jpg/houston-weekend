@@ -1,0 +1,811 @@
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>July 4th Weekend | Houston</title>
+
+<style>
+  /* ---------- THEME ---------- */
+  :root{
+    --red:#E4322B;
+    --blue:#1B4DB1;
+    --ink:#111318;
+    --bg:#F4F5F8;
+    --card:#FFFFFF;
+    --muted:#6B7280;
+    --line:#E7E9EE;
+    --good:#22B06B;
+    --shadow:0 1px 2px rgba(17,19,24,.04), 0 8px 24px rgba(17,19,24,.06);
+    --shadow-lift:0 10px 20px rgba(17,19,24,.08), 0 20px 48px rgba(17,19,24,.12);
+    --r:20px;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{
+    background:
+      radial-gradient(1200px 600px at 100% -10%, rgba(27,77,177,.06), transparent 60%),
+      radial-gradient(1000px 500px at -10% 0%, rgba(228,50,43,.06), transparent 55%),
+      var(--bg);
+    color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Inter,system-ui,Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    line-height:1.4;
+    padding:env(safe-area-inset-top) 0 48px;
+  }
+  .wrap{max-width:1120px;margin:0 auto;padding:20px 18px 0}
+  a{color:inherit}
+  .stripe{height:6px;background:linear-gradient(90deg,var(--red) 0 33.3%,#fff 33.3% 66.6%,var(--blue) 66.6% 100%)}
+
+  /* ---------- HEADER ---------- */
+  header{margin-top:22px}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:8px;
+    font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);
+  }
+  .eyebrow .flag{color:var(--red)}
+  h1{
+    font-size:clamp(34px,7vw,64px);line-height:.98;margin:.28em 0 .1em;
+    font-weight:900;letter-spacing:-.02em;
+  }
+  h1 .b{color:var(--blue)}
+  h1 .r{color:var(--red)}
+  .sub{color:var(--muted);font-weight:600;font-size:clamp(14px,2.4vw,17px)}
+
+  /* clock + weather row */
+  .toprow{display:flex;flex-wrap:wrap;gap:12px;margin-top:18px}
+  .chip-clock{
+    display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--line);
+    border-radius:14px;padding:10px 14px;box-shadow:var(--shadow);font-weight:700;font-size:14px;
+  }
+  .live-dot{width:9px;height:9px;border-radius:50%;background:var(--good);box-shadow:0 0 0 0 rgba(34,176,107,.5);animation:pulse 2s infinite}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(34,176,107,.45)}70%{box-shadow:0 0 0 10px rgba(34,176,107,0)}100%{box-shadow:0 0 0 0 rgba(34,176,107,0)}}
+  .clock-time{font-variant-numeric:tabular-nums}
+  .wthr{
+    display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--line);
+    border-radius:14px;padding:8px 14px;box-shadow:var(--shadow);
+  }
+  .wthr .big{font-size:22px;font-weight:900;line-height:1}
+  .wthr .lil{font-size:12px;color:var(--muted);font-weight:700}
+  .wthr .ico{font-size:22px}
+
+  /* progress */
+  .progress-card{margin-top:14px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 16px;box-shadow:var(--shadow)}
+  .progress-head{display:flex;justify-content:space-between;align-items:baseline;font-weight:800;font-size:13px}
+  .progress-head .pct{color:var(--blue)}
+  .bar{height:12px;border-radius:99px;background:#EEF0F5;margin-top:10px;overflow:hidden}
+  .bar > span{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,var(--red),#fff 50%,var(--blue));transition:width .8s cubic-bezier(.2,.7,.2,1)}
+  .bar-ends{display:flex;justify-content:space-between;margin-top:7px;font-size:11px;color:var(--muted);font-weight:700;letter-spacing:.02em}
+
+  /* NEXT UP */
+  .nextup{
+    margin-top:14px;border-radius:24px;padding:22px;color:#fff;position:relative;overflow:hidden;
+    background:linear-gradient(135deg,#16233f,#1B4DB1 60%,#2560d6);box-shadow:var(--shadow-lift);
+  }
+  .nextup::after{content:"";position:absolute;right:-40px;top:-40px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(228,50,43,.35),transparent 70%)}
+  .nextup .lab{font-size:12px;letter-spacing:.16em;text-transform:uppercase;font-weight:800;opacity:.85}
+  .nextup .nm{font-size:clamp(22px,4.6vw,30px);font-weight:900;margin:6px 0 2px;letter-spacing:-.01em}
+  .nextup .when{opacity:.9;font-weight:700;font-size:14px}
+  .cd{display:flex;gap:8px;margin-top:16px;flex-wrap:wrap;align-items:flex-end}
+  .cd .box{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.18);border-radius:12px;padding:8px 12px;text-align:center;min-width:62px}
+  .cd .n{font-size:26px;font-weight:900;font-variant-numeric:tabular-nums;line-height:1}
+  .cd .u{font-size:10px;letter-spacing:.12em;text-transform:uppercase;opacity:.8;font-weight:800;margin-top:4px}
+  .btn{
+    display:inline-flex;align-items:center;gap:7px;border:none;cursor:pointer;font:inherit;font-weight:800;
+    border-radius:12px;padding:10px 15px;text-decoration:none;transition:transform .15s ease, box-shadow .15s ease, background .15s ease;
+  }
+  .btn:active{transform:scale(.97)}
+  .btn-ghost{background:rgba(255,255,255,.16);color:#fff;border:1px solid rgba(255,255,255,.28)}
+  .btn-ghost:hover{background:rgba(255,255,255,.26)}
+  .nextup .actions{margin-top:16px}
+
+  /* section titles */
+  .sec{margin-top:40px}
+  .sec-h{display:flex;align-items:center;gap:12px;margin:0 0 16px}
+  .sec-h h2{font-size:clamp(20px,3.4vw,26px);font-weight:900;letter-spacing:-.01em;margin:0}
+  .sec-h .rule{flex:1;height:2px;background:var(--line);border-radius:2px}
+
+  /* agenda grid */
+  .days{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+  .day{background:transparent}
+  .day-h{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:10px;padding:0 2px}
+  .day-h .dow{font-weight:900;font-size:16px;letter-spacing:-.01em}
+  .day-h .dt{font-size:12px;color:var(--muted);font-weight:700}
+  .day.today .dow{color:var(--red)}
+  .today-badge{font-size:10px;font-weight:900;letter-spacing:.08em;color:#fff;background:var(--red);border-radius:6px;padding:2px 7px;margin-left:6px;text-transform:uppercase}
+
+  .ev{
+    background:var(--card);border:1px solid var(--line);border-radius:16px;padding:13px 14px;margin-bottom:12px;
+    box-shadow:var(--shadow);transition:transform .18s ease, box-shadow .18s ease, opacity .3s ease;position:relative;
+  }
+  .ev:hover{transform:translateY(-3px);box-shadow:var(--shadow-lift)}
+  .ev .row1{display:flex;align-items:center;gap:9px;margin-bottom:4px}
+  .ev .ico{font-size:19px;line-height:1}
+  .ev .time{font-weight:900;font-size:14px;font-variant-numeric:tabular-nums}
+  .ev .nm{font-weight:800;font-size:15px;letter-spacing:-.01em;margin:2px 0 3px}
+  .ev .note{font-size:12.5px;color:var(--muted);font-weight:500;line-height:1.35}
+  .ev .foot{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:11px}
+  .dt-est{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:800;color:var(--ink)}
+  .dot{width:8px;height:8px;border-radius:50%;flex:none}
+  .dot.live{background:var(--good)}
+  .dot.static{background:#C4C8D0}
+  .dot.hotel{background:var(--blue)}
+  .btn-dir{background:#F1F3F8;color:var(--blue);border:1px solid var(--line);padding:7px 11px;font-size:12.5px}
+  .btn-dir:hover{background:#E9EDF7}
+
+  .ev.past{opacity:.5}
+  .ev.upcoming{border-color:#DCE3F4}
+  .ev.current{border-color:var(--red);box-shadow:0 0 0 3px rgba(228,50,43,.14),var(--shadow-lift)}
+  .ev.current::before{content:"NOW";position:absolute;top:-9px;left:12px;background:var(--red);color:#fff;font-size:10px;font-weight:900;letter-spacing:.1em;padding:2px 8px;border-radius:6px;animation:nowpulse 1.6s ease-in-out infinite}
+  @keyframes nowpulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+
+  /* fireworks card */
+  .fw{
+    grid-column:1 / -1;margin-top:4px;border-radius:22px;padding:20px 22px;color:#fff;cursor:pointer;position:relative;overflow:hidden;
+    background:linear-gradient(120deg,#3a0d1a,#7a1220 40%,#12235a);box-shadow:var(--shadow-lift);
+    display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;
+    transition:transform .18s ease, box-shadow .18s ease;
+  }
+  .fw:hover{transform:translateY(-3px)}
+  .fw .lab{font-size:11px;letter-spacing:.18em;text-transform:uppercase;font-weight:800;opacity:.85}
+  .fw .nm{font-size:clamp(20px,4vw,26px);font-weight:900;margin:5px 0 2px}
+  .fw .sm{opacity:.9;font-weight:700;font-size:13px}
+  .fw .cd .box{background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.22)}
+  .fw .tap{font-size:12px;font-weight:800;opacity:.85;margin-top:8px}
+
+  /* ideas */
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px}
+  .chip{
+    border:1px solid var(--line);background:var(--card);border-radius:99px;padding:8px 14px;font-weight:800;font-size:13px;cursor:pointer;
+    transition:transform .12s ease, background .15s ease, color .15s ease, border-color .15s ease;color:var(--ink);
+  }
+  .chip:hover{transform:translateY(-1px)}
+  .chip.active{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .shuffle-wrap{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin:6px 0 16px}
+  .btn-shuffle{background:var(--red);color:#fff;padding:12px 18px;font-size:14px;box-shadow:0 8px 18px rgba(228,50,43,.28)}
+  .btn-shuffle:hover{background:#cf2a24;transform:translateY(-2px)}
+
+  .spotlight{
+    background:linear-gradient(135deg,#fff,#f7f9ff);border:2px dashed #C9D3EC;border-radius:18px;padding:18px;margin-bottom:18px;
+    display:none;box-shadow:var(--shadow);
+  }
+  .spotlight.show{display:block;animation:pop .5s cubic-bezier(.2,.9,.2,1.2)}
+  @keyframes pop{0%{transform:scale(.92);opacity:0}100%{transform:scale(1);opacity:1}}
+  .spotlight .lab{font-size:11px;letter-spacing:.16em;text-transform:uppercase;font-weight:900;color:var(--red)}
+  .spotlight .nm{font-size:22px;font-weight:900;letter-spacing:-.01em;margin:6px 0 4px}
+  .spotlight .note{color:var(--muted);font-weight:600;font-size:14px}
+  .spotlight .foot{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:14px;flex-wrap:wrap}
+
+  .ideas{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px}
+  .idea{
+    background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;box-shadow:var(--shadow);
+    transition:transform .18s ease, box-shadow .18s ease;display:flex;flex-direction:column;
+  }
+  .idea:hover{transform:translateY(-3px);box-shadow:var(--shadow-lift)}
+  .idea .cat{font-size:10.5px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;color:var(--blue)}
+  .idea .nm{font-weight:800;font-size:15.5px;letter-spacing:-.01em;margin:5px 0 4px}
+  .idea .note{font-size:12.5px;color:var(--muted);font-weight:500;line-height:1.35;flex:1}
+  .idea .foot{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:12px}
+  .tag{font-size:10.5px;font-weight:800;color:var(--muted);background:#F1F3F8;border-radius:6px;padding:2px 7px}
+
+  footer{margin-top:44px;text-align:center;color:var(--muted);font-size:12px;font-weight:600}
+
+  #confetti{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:60}
+
+  /* responsive */
+  @media (max-width:860px){
+    .days{grid-template-columns:1fr 1fr}
+  }
+  @media (max-width:560px){
+    .wrap{padding:16px 14px 0}
+    .days{grid-template-columns:1fr}
+    .toprow{gap:10px}
+    .chip-clock,.wthr{flex:1;justify-content:center}
+    .nextup{padding:18px}
+    .cd .box{flex:1;min-width:0}
+  }
+</style>
+
+<div class="stripe"></div>
+<canvas id="confetti"></canvas>
+
+<div class="wrap">
+  <!-- ===================== HEADER ===================== -->
+  <header>
+    <span class="eyebrow"><span class="flag">★</span> The Houstonian &nbsp;/&nbsp; July 4th Weekend</span>
+    <h1>Mom &amp; Dad<br><span class="r">in</span> <span class="b">Houston</span></h1>
+    <div class="sub">Thursday to Sunday. Here is the plan, the weather, and something to do when we get bored.</div>
+
+    <div class="toprow">
+      <div class="chip-clock">
+        <span class="live-dot"></span>
+        <span class="clock-time" id="clock">--:--:--</span>
+        <span style="color:var(--muted)">CT</span>
+      </div>
+      <div class="wthr" id="weather">
+        <span class="ico">⛅</span>
+        <div>
+          <div class="big" id="wNow">--</div>
+          <div class="lil" id="wRange">Loading weather</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- progress -->
+    <div class="progress-card">
+      <div class="progress-head"><span>Weekend progress</span><span class="pct" id="progPct">0%</span></div>
+      <div class="bar"><span id="progBar"></span></div>
+      <div class="bar-ends"><span>Thu 9:00 PM arrival</span><span>Sun 7:00 PM airport</span></div>
+    </div>
+
+    <!-- next up -->
+    <div class="nextup" id="nextup">
+      <div class="lab">Next up</div>
+      <div class="nm" id="nuName">Loading</div>
+      <div class="when" id="nuWhen"></div>
+      <div class="cd" id="nuCd"></div>
+      <div class="actions"><a class="btn btn-ghost" id="nuDir" target="_blank" rel="noopener">Directions ↗</a></div>
+    </div>
+  </header>
+
+  <!-- ===================== AGENDA ===================== -->
+  <section class="sec">
+    <div class="sec-h"><h2>The Weekend</h2><div class="rule"></div></div>
+    <div class="days" id="days"></div>
+  </section>
+
+  <!-- ===================== IDEAS ===================== -->
+  <section class="sec">
+    <div class="sec-h"><h2>When We Are Bored</h2><div class="rule"></div></div>
+    <div class="chips" id="chips"></div>
+    <div class="shuffle-wrap">
+      <div style="color:var(--muted);font-weight:700;font-size:13px" id="ideaCount"></div>
+      <button class="btn btn-shuffle" id="shuffleBtn">🎲 Bored? Shuffle an idea</button>
+    </div>
+    <div class="spotlight" id="spotlight"></div>
+    <div class="ideas" id="ideas"></div>
+  </section>
+
+  <footer>Built for the Houston July 4th weekend. Times are Central. Tap Directions for live traffic.</footer>
+</div>
+
+<script>
+/* =====================================================================
+   CONFIG
+   ===================================================================== */
+// Optional: paste a key for traffic-aware Google Distance Matrix times.
+// Leave empty to use the free OSRM routing fallback (no key needed).
+const GOOGLE_MAPS_API_KEY = "AIzaSyAmYWst6A6FRtgDC5s9TsxKD_bywjy2Zps";
+const HOTEL = { name: "The Houstonian", lat: 29.7640, lon: -95.4635 };
+const TZ = "America/Chicago";
+
+/* =====================================================================
+   DATA: CONFIRMED SCHEDULE  (Central time, summer = UTC-5 offset)
+   Edit times/notes here. iso drives the countdowns; time is the label.
+   type: travel | food | workout | pool | fireworks | optional
+   coords + est power the live drive-time estimate. onsite = at the hotel.
+   ===================================================================== */
+const EVENTS = [
+  // ---- Thursday July 2 ----
+  { day:0, time:"9:00 PM",  iso:"2026-07-02T21:00:00-05:00", type:"travel",    name:"Parents land at IAH",
+    note:"George Bush Intercontinental. Watch the flight, then head over.", lat:29.9902, lon:-95.3368, est:26 },
+  { day:0, time:"10:00 PM", iso:"2026-07-02T22:00:00-05:00", type:"food",      name:"Dinner at Rumi's Kitchen",
+    note:"Persian on Post Oak. Closes 10pm Thursday, so confirm a late seating or keep a backup.", lat:29.7810, lon:-95.4610, est:6 },
+
+  // ---- Friday July 3 ----
+  { day:1, time:"10:10 AM", iso:"2026-07-03T10:10:00-05:00", type:"workout",   name:"Barry's Bootcamp",
+    note:"Start the day with a class.", lat:29.7545, lon:-95.4085, est:13 },
+  { day:1, time:"6:00 PM",  iso:"2026-07-03T18:00:00-05:00", type:"food",      name:"BCN Taste and Tradition",
+    note:"Spanish fine dining in Montrose.", lat:29.7390, lon:-95.4000, est:15 },
+
+  // ---- Saturday July 4 ----
+  { day:2, time:"8:30 AM",  iso:"2026-07-04T08:30:00-05:00", type:"workout",   name:"Barry's Bootcamp",
+    note:"Early July 4th sweat.", lat:29.7545, lon:-95.4085, est:13 },
+  { day:2, time:"10:00 AM", iso:"2026-07-04T10:00:00-05:00", type:"pool",      name:"Pool reservation",
+    note:"Poolside at The Houstonian.", onsite:true },
+  { day:2, time:"7:00 PM",  iso:"2026-07-04T19:00:00-05:00", type:"food",      name:"Clark's Oyster Bar",
+    note:"Dinner before the fireworks.", lat:29.7420, lon:-95.4560, est:8 },
+  { day:2, time:"9:30 PM",  iso:"2026-07-04T21:30:00-05:00", type:"fireworks", name:"Freedom Over Texas fireworks",
+    note:"Over Buffalo Bayou and Allen Parkway.", lat:29.7625, lon:-95.3855, est:15 },
+
+  // ---- Sunday July 5 ----
+  { day:3, time:"9:40 AM",  iso:"2026-07-05T09:40:00-05:00", type:"workout",   name:"Barry's Bootcamp",
+    note:"Last class of the trip.", lat:29.7545, lon:-95.4085, est:13 },
+  { day:3, time:"12:00 PM", iso:"2026-07-05T12:00:00-05:00", type:"optional",  name:"Church",
+    note:"Optional.", lat:null, lon:null, est:12 },
+  { day:3, time:"5:00 PM",  iso:"2026-07-05T17:00:00-05:00", type:"food",      name:"Dinner at Oru",
+    note:"Sushi to close it out. 746 W 24th St, in the Heights.", addr:"746 W 24th St, Houston, TX 77008", lat:29.7996, lon:-95.4088, est:16 },
+  { day:3, time:"7:00 PM",  iso:"2026-07-05T19:00:00-05:00", type:"travel",    name:"Drop parents at IAH",
+    note:"Confirm flight time. About a 35 minute drive.", lat:29.9902, lon:-95.3368, est:32 },
+];
+
+const DAYS = [
+  { dow:"Thursday", date:"Jul 2", ymd:"2026-07-02" },
+  { dow:"Friday",   date:"Jul 3", ymd:"2026-07-03" },
+  { dow:"Saturday", date:"Jul 4", ymd:"2026-07-04" },
+  { dow:"Sunday",   date:"Jul 5", ymd:"2026-07-05" },
+];
+
+const TYPE_ICON = { travel:"✈️", food:"🍽️", workout:"🏋️", pool:"🏊", fireworks:"🎆", optional:"⛪" };
+
+/* =====================================================================
+   DATA: "WHEN WE ARE BORED" IDEAS POOL  (near The Houstonian)
+   category | name | note | est minutes | coords. onsite = at the hotel.
+   Categories: Coffee, Treats, Move, Shop, Eat, Dine, Do, Culture, Chill
+   ===================================================================== */
+const IDEAS = [
+  // ---- Coffee ----
+  { cat:"Coffee", name:"Houstonian lobby coffee", note:"Fastest option, right downstairs.", onsite:true },
+  { cat:"Coffee", name:"Giant Leap Coffee", note:"Uptown, local Amaya beans, community feel.", est:5,  lat:29.7780, lon:-95.4620 },
+  { cat:"Coffee", name:"Love Croissants", note:"Cronut style pastries and coffee.", est:12, lat:29.7580, lon:-95.4110 },
+  { cat:"Coffee", name:"Slow Drip", note:"Easygoing neighborhood cafe.", est:14, lat:29.7460, lon:-95.4200 },
+  { cat:"Coffee", name:"Fluff Bake Bar", note:"Coffee plus serious baked goods.", est:15, lat:29.7440, lon:-95.3980 },
+  { cat:"Coffee", name:"Honest Mary's", note:"Grain bowls and bone broth if you want clean fuel.", est:13, lat:29.7420, lon:-95.4100 },
+  { cat:"Coffee", name:"BlendIn Coffee Club", note:"Precise, pour-over focused roaster.", est:20, lat:29.7000, lon:-95.4600 },
+  { cat:"Coffee", name:"Lalaland Kafe", note:"Big airy space, great for sitting a while.", est:15, lat:29.7170, lon:-95.4120 },
+  { cat:"Coffee", name:"Simply Coffie", note:"Cozy local spot.", est:15, lat:29.7300, lon:-95.4300 },
+  { cat:"Coffee", name:"Leemoo Health Bar", note:"Coffee, smoothies, lighter bites.", est:14, lat:29.7350, lon:-95.4250 },
+  { cat:"Coffee", name:"Pavon", note:"Latin American cafe vibe.", est:14, lat:29.7400, lon:-95.4150 },
+  { cat:"Coffee", name:"Agnes Cafe", note:"Charming, good for a slow morning.", est:15, lat:29.7380, lon:-95.4050 },
+
+  // ---- Treats ----
+  { cat:"Treats", name:"Bittersweet Cookies", note:"Warm cookies on demand.", est:12, lat:29.7460, lon:-95.4200 },
+  { cat:"Treats", name:"Underground Creamery", note:"Small batch ice cream.", est:15, lat:29.7400, lon:-95.4000 },
+  { cat:"Treats", name:"Tiny's Milk and Cookies", note:"Classic cookies and a cute patio.", est:10, lat:29.7430, lon:-95.4310 },
+  { cat:"Treats", name:"Pressed Juicery", note:"Cold pressed juice and soft serve.", est:6,  lat:29.7400, lon:-95.4610 },
+
+  // ---- Move ----
+  { cat:"Move", name:"Memorial Park", note:"Right next door. Lieberman 3-mile loop, Eastern Glades, Land Bridge.", est:4, lat:29.7640, lon:-95.4360 },
+  { cat:"Move", name:"Buffalo Bayou Park", note:"Run, walk, picnic, or rent a kayak at Lost Lake.", est:14, lat:29.7625, lon:-95.3855 },
+  { cat:"Move", name:"Equinox", note:"Full service club if you want a real gym.", est:10, lat:29.7420, lon:-95.4200 },
+  { cat:"Move", name:"F45", note:"Team training, drop-in class.", est:12, lat:29.7500, lon:-95.4300 },
+  { cat:"Move", name:"Post Oak Gym", note:"Close by, straightforward lift.", est:8,  lat:29.7500, lon:-95.4640 },
+
+  // ---- Shop ----
+  { cat:"Shop", name:"The Galleria", note:"400+ stores and an indoor ice rink.", est:7,  lat:29.7400, lon:-95.4610 },
+  { cat:"Shop", name:"River Oaks District", note:"Upscale open-air luxury shopping.", est:8,  lat:29.7420, lon:-95.4560 },
+  { cat:"Shop", name:"Uptown Park", note:"Open-air shopping and dining, very close.", est:6,  lat:29.7690, lon:-95.4640 },
+  { cat:"Shop", name:"Kuhl-Linscomb", note:"Sprawling design and home store.", est:10, lat:29.7440, lon:-95.4350 },
+  { cat:"Shop", name:"Brandy Melville", note:"Casual basics.", est:15, lat:29.7170, lon:-95.4130 },
+  { cat:"Shop", name:"Saint Bernard", note:"Outdoor and prep apparel.", est:8,  lat:29.7420, lon:-95.4560 },
+  { cat:"Shop", name:"LoveShackFancy", note:"Floral, feminine label at River Oaks District.", est:8, lat:29.7420, lon:-95.4560 },
+  { cat:"Shop", name:"Berings", note:"Houston institution, hardware to gifts.", est:8,  lat:29.7520, lon:-95.4400 },
+
+  // ---- Eat (casual) ----
+  { cat:"Eat", name:"Flower Child", note:"Healthy fast-casual bowls.", est:6,  lat:29.7520, lon:-95.4620 },
+  { cat:"Eat", name:"Local Foods", note:"Sandwiches and salads done well.", est:9,  lat:29.7440, lon:-95.4400 },
+  { cat:"Eat", name:"Casa Ema", note:"Mexican comfort food.", est:14, lat:29.7350, lon:-95.4200 },
+  { cat:"Eat", name:"Taco trucks", note:"Find one nearby for a quick bite.", est:10, lat:null, lon:null },
+
+  // ---- Dine (sit down / night out) ----
+  { cat:"Dine", name:"Loro", note:"Outdoor Asian smokehouse and barbecue.", est:18, lat:29.8020, lon:-95.4100 },
+  { cat:"Dine", name:"The Rustic", note:"Big patio with live music.", est:18, lat:29.7520, lon:-95.3770 },
+  { cat:"Dine", name:"Gypsy Poet", note:"Detroit style pizza, fun room.", est:18, lat:29.7440, lon:-95.3770 },
+  { cat:"Dine", name:"Diversion", note:"Cocktail and dessert bar.", est:16, lat:29.7500, lon:-95.3800 },
+  { cat:"Dine", name:"Henderson and Kane", note:"Neighborhood general store and bar.", est:16, lat:29.7750, lon:-95.3900 },
+  { cat:"Dine", name:"Flora", note:"Lively Mexican dinner spot.", est:15, lat:29.7480, lon:-95.4100 },
+  { cat:"Dine", name:"Flight Club", note:"Social darts and drinks.", est:16, lat:29.7580, lon:-95.3900 },
+  { cat:"Dine", name:"Permission", note:"Inventive small plates.", est:16, lat:29.7500, lon:-95.4000 },
+
+  // ---- Do ----
+  { cat:"Do", name:"Astros game", note:"Check the home schedule at Daikin Park.", est:20, lat:29.7570, lon:-95.3550 },
+  { cat:"Do", name:"Beer gardens", note:"Find a patio and relax.", est:16, lat:null, lon:null },
+  { cat:"Do", name:"Waterwall Park", note:"64-foot fountain, great photo stop.", est:8,  lat:29.7370, lon:-95.4615 },
+  { cat:"Do", name:"Rooftop pool time", note:"Sun and a drink up high.", est:12, lat:29.7450, lon:-95.4100 },
+  { cat:"Do", name:"Rice Village Farmers Market", note:"Sunday market plus shopping the Village.", est:16, lat:29.7170, lon:-95.4130 },
+
+  // ---- Culture ----
+  { cat:"Culture", name:"The Menil Collection", note:"Free world-class art museum in Montrose.", est:16, lat:29.7375, lon:-95.3980 },
+  { cat:"Culture", name:"Museum of Fine Arts Houston", note:"One of the largest art museums in the country.", est:18, lat:29.7260, lon:-95.3900 },
+
+  // ---- Chill ----
+  { cat:"Chill", name:"Trellis Spa", note:"On-site spa at The Houstonian. Book ahead.", onsite:true },
+  { cat:"Chill", name:"Hotel pool deck", note:"Do nothing by the water.", onsite:true },
+];
+
+/* =====================================================================
+   PLACE REGISTRY (for live drive times)
+   ===================================================================== */
+EVENTS.forEach((e,i)=> e.id = "e"+i);
+IDEAS.forEach((d,i)=> d.id = "d"+i);
+const ALL_PLACES = [...EVENTS, ...IDEAS];
+
+/* =====================================================================
+   HELPERS
+   ===================================================================== */
+const $  = s => document.querySelector(s);
+const now = () => new Date();
+
+function dirUrl(p){
+  // Prefer an exact street address when we have one; otherwise search the place name.
+  const dest = encodeURIComponent(p.addr ? p.addr : p.name + " Houston");
+  return `https://www.google.com/maps/dir/?api=1&origin=${HOTEL.lat},${HOTEL.lon}&destination=${dest}&travelmode=driving`;
+}
+function evStart(e){ return new Date(e.iso); }
+
+function dtHTML(p){
+  if (p.onsite) return `<span class="dt-est" title="At the hotel"><span class="dot hotel"></span>at the hotel</span>`;
+  if (p.lat==null) return `<span class="dt-est" title="Saved estimate"><span class="dot static"></span>${p.est?p.est+" min":"nearby"}</span>`;
+  const live = p.live!=null;
+  const min  = live ? p.live : p.est;
+  const src  = !live ? "Saved estimate" : (p.src==="google" ? "Google live traffic" : "Live routing");
+  return `<span class="dt-est" title="${src}"><span class="dot ${live?'live':'static'}"></span>${min} min drive</span>`;
+}
+function refreshDt(id){
+  const p = ALL_PLACES.find(x=>x.id===id);
+  document.querySelectorAll(`[data-dt="${id}"]`).forEach(el=> el.innerHTML = dtHTML(p));
+}
+
+/* =====================================================================
+   RENDER: AGENDA
+   ===================================================================== */
+function evCard(e){
+  const dir = e.onsite ? "" :
+    `<a class="btn btn-dir" href="${dirUrl(e)}" target="_blank" rel="noopener">Directions ↗</a>`;
+  return `
+    <div class="ev" data-ev="${e.id}">
+      <div class="row1"><span class="ico">${TYPE_ICON[e.type]||"📍"}</span><span class="time">${e.time}</span></div>
+      <div class="nm">${e.name}</div>
+      <div class="note">${e.note||""}</div>
+      <div class="foot">
+        <span data-dt="${e.id}">${dtHTML(e)}</span>
+        ${dir}
+      </div>
+    </div>`;
+}
+function renderDays(){
+  const todayYmd = new Intl.DateTimeFormat("en-CA",{timeZone:TZ,year:"numeric",month:"2-digit",day:"2-digit"}).format(now());
+  $("#days").innerHTML = DAYS.map((d,di)=>{
+    const isToday = d.ymd===todayYmd;
+    const evs = EVENTS.filter(e=>e.day===di).map(evCard).join("");
+    return `
+      <div class="day ${isToday?'today':''}">
+        <div class="day-h">
+          <span class="dow">${d.dow}${isToday?'<span class="today-badge">Today</span>':''}</span>
+          <span class="dt">${d.date}</span>
+        </div>
+        ${evs}
+      </div>`;
+  }).join("") + fireworksCard();
+}
+
+/* fireworks banner spans all columns */
+function fireworksCard(){
+  return `
+    <div class="fw" id="fwCard">
+      <div>
+        <div class="lab">Saturday · Independence Day</div>
+        <div class="nm">🎆 Freedom Over Texas</div>
+        <div class="sm">Fireworks at 9:30 PM over Buffalo Bayou. Tap for a burst.</div>
+        <div class="tap">Tap anywhere on this card 🎉</div>
+      </div>
+      <div class="cd" id="fwCd"></div>
+    </div>`;
+}
+
+/* =====================================================================
+   RENDER: IDEAS + FILTER + SHUFFLE
+   ===================================================================== */
+const CATEGORIES = [...new Set(IDEAS.map(i=>i.cat))];
+let activeCat = "All";
+
+function ideaCard(d){
+  const tag = d.onsite ? "on-site" : (d.est!=null ? `~${d.est} min` : "nearby");
+  const dir = d.onsite ? "" :
+    `<a class="btn btn-dir" href="${dirUrl(d)}" target="_blank" rel="noopener">Directions ↗</a>`;
+  return `
+    <div class="idea" data-cat="${d.cat}">
+      <div class="cat">${d.cat}</div>
+      <div class="nm">${d.name}</div>
+      <div class="note">${d.note||""}</div>
+      <div class="foot">
+        <span data-dt="${d.id}">${dtHTML(d)}</span>
+        <span class="tag">${tag}</span>
+      </div>
+      <div class="foot" style="margin-top:8px">${dir||'<span class="tag">at the hotel</span>'}</div>
+    </div>`;
+}
+function renderChips(){
+  const cats = ["All",...CATEGORIES];
+  $("#chips").innerHTML = cats.map(c=>`<button class="chip ${c===activeCat?'active':''}" data-chip="${c}">${c}</button>`).join("");
+}
+function renderIdeas(){
+  const list = activeCat==="All" ? IDEAS : IDEAS.filter(i=>i.cat===activeCat);
+  $("#ideas").innerHTML = list.map(ideaCard).join("");
+  $("#ideaCount").textContent = `${list.length} ideas${activeCat==="All"?"":" in "+activeCat}`;
+}
+function setCat(c){ activeCat=c; renderChips(); renderIdeas(); }
+
+function shuffle(){
+  const pool = activeCat==="All" ? IDEAS : IDEAS.filter(i=>i.cat===activeCat);
+  if(!pool.length) return;
+  const d = pool[Math.floor(Math.random()*pool.length)];
+  const tag = d.onsite ? "on-site" : (d.est!=null ? `~${d.est} min` : "nearby");
+  const dir = d.onsite ? `<span class="tag">at the hotel</span>` :
+    `<a class="btn btn-dir" href="${dirUrl(d)}" target="_blank" rel="noopener">Directions ↗</a>`;
+  const sp = $("#spotlight");
+  sp.classList.remove("show");
+  // reflow to restart the animation
+  void sp.offsetWidth;
+  sp.innerHTML = `
+    <div class="lab">Your move · ${d.cat}</div>
+    <div class="nm">${d.name}</div>
+    <div class="note">${d.note||""}</div>
+    <div class="foot">
+      <span data-dt="${d.id}">${dtHTML(d)}</span>
+      <span style="display:flex;gap:8px;align-items:center"><span class="tag">${tag}</span>${dir}</span>
+    </div>`;
+  sp.classList.add("show");
+  sp.scrollIntoView({behavior:"smooth",block:"center"});
+}
+
+/* =====================================================================
+   CLOCK + PROGRESS + NEXT UP + STATUSES
+   ===================================================================== */
+const START = new Date("2026-07-02T21:00:00-05:00"); // Thu arrival
+const END   = new Date("2026-07-05T19:00:00-05:00"); // Sun airport drop
+
+function fmtClock(){
+  return new Intl.DateTimeFormat("en-US",{timeZone:TZ,weekday:"short",month:"short",day:"numeric",
+    hour:"numeric",minute:"2-digit",second:"2-digit",hour12:true}).format(now());
+}
+function parts(ms){
+  ms=Math.max(0,ms);
+  const s=Math.floor(ms/1000);
+  return { d:Math.floor(s/86400), h:Math.floor(s%86400/3600), m:Math.floor(s%3600/60), s:s%60 };
+}
+function pad(n){ return String(n).padStart(2,"0"); }
+
+function cdBoxes(ms){
+  const p=parts(ms);
+  const items = p.d>0
+    ? [["Days",p.d],["Hrs",pad(p.h)],["Min",pad(p.m)],["Sec",pad(p.s)]]
+    : [["Hrs",pad(p.h)],["Min",pad(p.m)],["Sec",pad(p.s)]];
+  return items.map(([u,n])=>`<div class="box"><div class="n">${n}</div><div class="u">${u}</div></div>`).join("");
+}
+
+function updateNextUp(){
+  const n = now();
+  const next = EVENTS.find(e=>evStart(e)>n);
+  if(!next){
+    $("#nuName").textContent = "That is a wrap";
+    $("#nuWhen").textContent = "Safe travels home.";
+    $("#nuCd").innerHTML=""; $("#nuDir").style.display="none";
+    return;
+  }
+  const d = DAYS[next.day];
+  $("#nuName").textContent = next.name;
+  $("#nuWhen").textContent = `${d.dow} · ${next.time}`;
+  $("#nuCd").innerHTML = cdBoxes(evStart(next)-n);
+  if(next.onsite){ $("#nuDir").style.display="none"; }
+  else { $("#nuDir").style.display=""; $("#nuDir").href = dirUrl(next); }
+}
+
+function updateStatuses(){
+  const n = now();
+  let currentId=null;
+  // current = latest started event within the last 3 hours
+  for(const e of EVENTS){
+    if(evStart(e)<=n){ if((n-evStart(e))<3*3600*1000) currentId=e.id; }
+  }
+  EVENTS.forEach(e=>{
+    const el = document.querySelector(`[data-ev="${e.id}"]`);
+    if(!el) return;
+    el.classList.remove("past","current","upcoming");
+    const st=evStart(e);
+    if(e.id===currentId) el.classList.add("current");
+    else if(st>n) el.classList.add("upcoming");
+    else el.classList.add("past");
+  });
+}
+
+function updateProgress(){
+  const n=now();
+  let pct = (n-START)/(END-START);
+  pct = Math.max(0,Math.min(1,pct))*100;
+  $("#progBar").style.width = pct+"%";
+  $("#progPct").textContent = Math.round(pct)+"%";
+}
+
+function updateFireworks(){
+  const target=new Date("2026-07-04T21:30:00-05:00");
+  $("#fwCd").innerHTML = cdBoxes(target-now());
+}
+
+function tick(){
+  $("#clock").textContent = fmtClock();
+  updateNextUp();
+  updateFireworks();
+  // heavier passes every ~5s
+  if(!tick._c || tick._c%5===0){ updateStatuses(); updateProgress(); }
+  tick._c=(tick._c||0)+1;
+}
+
+/* =====================================================================
+   WEATHER (Open-Meteo, no key)
+   ===================================================================== */
+async function loadWeather(){
+  const url = "https://api.open-meteo.com/v1/forecast?latitude=29.75&longitude=-95.46"
+    + "&current=temperature_2m,weather_code&daily=temperature_2m_max,temperature_2m_min"
+    + "&temperature_unit=fahrenheit&timezone=America%2FChicago";
+  try{
+    const ctrl=new AbortController(); const t=setTimeout(()=>ctrl.abort(),7000);
+    const r=await fetch(url,{signal:ctrl.signal}); clearTimeout(t);
+    const j=await r.json();
+    const cur=Math.round(j.current.temperature_2m);
+    const hi=Math.round(j.daily.temperature_2m_max[0]);
+    const lo=Math.round(j.daily.temperature_2m_min[0]);
+    $("#wNow").textContent = cur+"°";
+    $("#wRange").textContent = `High ${hi}° · Low ${lo}°`;
+    document.querySelector("#weather .ico").textContent = wxIcon(j.current.weather_code);
+  }catch(e){
+    $("#wNow").textContent="--";
+    $("#wRange").textContent="Weather offline";
+  }
+}
+function wxIcon(c){
+  if(c==null) return "⛅";
+  if(c===0) return "☀️";
+  if(c<=2) return "🌤️";
+  if(c===3) return "☁️";
+  if(c>=45&&c<=48) return "🌫️";
+  if(c>=51&&c<=67) return "🌦️";
+  if(c>=71&&c<=77) return "❄️";
+  if(c>=80&&c<=82) return "🌧️";
+  if(c>=95) return "⛈️";
+  return "⛅";
+}
+
+/* =====================================================================
+   LIVE DRIVE TIMES
+   Primary: Google Distance Matrix (if key). Fallback: OSRM table. 7s cap.
+   Static est already painted, so cards are never blank.
+   ===================================================================== */
+const CACHE_KEY="hou_dt_cache_v2";
+function loadCache(){
+  try{ const c=JSON.parse(localStorage.getItem(CACHE_KEY)); if(c && Date.now()-c.t<600000) return c.v; }catch(e){}
+  return null;
+}
+function saveCache(){
+  const v={}; ALL_PLACES.forEach(p=>{ if(p.live!=null) v[p.id]=p.live; });
+  try{ localStorage.setItem(CACHE_KEY, JSON.stringify({t:Date.now(),v})); }catch(e){}
+}
+function applyLive(map){
+  Object.entries(map).forEach(([id,min])=>{
+    const p=ALL_PLACES.find(x=>x.id===id);
+    if(p){ p.live=min; refreshDt(id); }
+  });
+}
+
+async function osrmTimes(routable){
+  const coords=[[HOTEL.lon,HOTEL.lat],...routable.map(p=>[p.lon,p.lat])].map(c=>c.join(",")).join(";");
+  const url=`https://router.project-osrm.org/table/v1/driving/${coords}?sources=0&annotations=duration`;
+  const ctrl=new AbortController(); const t=setTimeout(()=>ctrl.abort(),7000);
+  const r=await fetch(url,{signal:ctrl.signal}); clearTimeout(t);
+  const j=await r.json();
+  const durs=j.durations && j.durations[0];
+  if(!durs) throw new Error("no durations");
+  routable.forEach((p,i)=>{ const sec=durs[i+1]; if(sec!=null){ p.live=Math.round(sec/60); p.src="osrm"; refreshDt(p.id); } });
+}
+
+// Load the Google Maps JavaScript SDK once. This is the browser-native path,
+// unlike the REST Distance Matrix endpoint which browsers block with CORS.
+let _gmapsPromise=null;
+function loadGoogleSDK(){
+  if(_gmapsPromise) return _gmapsPromise;
+  _gmapsPromise=new Promise((resolve,reject)=>{
+    if(window.google && google.maps && google.maps.DistanceMatrixService) return resolve();
+    const to=setTimeout(()=>reject(new Error("sdk timeout")),7000);
+    window.__gmapsReady=()=>{ clearTimeout(to); resolve(); };
+    const s=document.createElement("script");
+    s.src=`https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_API_KEY}&callback=__gmapsReady&loading=async`;
+    s.async=true;
+    s.onerror=()=>{ clearTimeout(to); reject(new Error("sdk load error")); };
+    document.head.appendChild(s);
+  });
+  return _gmapsPromise;
+}
+
+// Traffic-aware times via DistanceMatrixService, batched at 25 destinations per call.
+async function googleTimes(routable){
+  await loadGoogleSDK();
+  const svc=new google.maps.DistanceMatrixService();
+  const groups=[];
+  for(let i=0;i<routable.length;i+=25) groups.push(routable.slice(i,i+25));
+  let any=false;
+  for(const group of groups){
+    const resp=await new Promise((resolve,reject)=>{
+      // Guard against a callback that never fires (e.g. an unactivated API),
+      // so liveDriveTimes can fall back to OSRM instead of hanging.
+      const to=setTimeout(()=>reject(new Error("DistanceMatrix timeout")),7000);
+      svc.getDistanceMatrix({
+        origins:[{lat:HOTEL.lat,lng:HOTEL.lon}],
+        destinations:group.map(p=>({lat:p.lat,lng:p.lon})),
+        travelMode:google.maps.TravelMode.DRIVING,
+        drivingOptions:{departureTime:new Date(), trafficModel:google.maps.TrafficModel.BEST_GUESS},
+        unitSystem:google.maps.UnitSystem.IMPERIAL
+      },(res,status)=>{ clearTimeout(to); status==="OK" ? resolve(res) : reject(new Error("DistanceMatrix "+status)); });
+    });
+    const els=resp.rows[0].elements;
+    group.forEach((p,i)=>{
+      const el=els[i];
+      if(el && el.status==="OK"){
+        const sec=(el.duration_in_traffic||el.duration).value;
+        p.live=Math.round(sec/60); p.src="google"; refreshDt(p.id); any=true;
+      }
+    });
+  }
+  if(!any) throw new Error("no google results");
+}
+
+async function liveDriveTimes(){
+  const cached=loadCache();
+  if(cached){ applyLive(cached); return; }
+  const routable=ALL_PLACES.filter(p=>!p.onsite && p.lat!=null && p.lon!=null);
+  try{
+    if(GOOGLE_MAPS_API_KEY){
+      try{ await googleTimes(routable); }
+      catch(_){ await osrmTimes(routable); }
+    } else {
+      await osrmTimes(routable);
+    }
+    saveCache();
+  }catch(e){
+    /* keep static estimates, dots stay gray */
+  }
+}
+
+/* =====================================================================
+   CONFETTI
+   ===================================================================== */
+const cv=$("#confetti"), cx=cv.getContext("2d");
+let parts_=[], raf=null;
+function fitCanvas(){ cv.width=innerWidth*devicePixelRatio; cv.height=innerHeight*devicePixelRatio; cx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0); }
+addEventListener("resize",fitCanvas); fitCanvas();
+const COLORS=["#E4322B","#FFFFFF","#1B4DB1","#f2c744"];
+function confetti(x,y){
+  for(let i=0;i<140;i++){
+    const a=Math.random()*Math.PI*2, sp=4+Math.random()*8;
+    parts_.push({x,y,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp-6,g:.22+Math.random()*.12,
+      s:5+Math.random()*6,rot:Math.random()*6.28,vr:(Math.random()-.5)*.4,
+      c:COLORS[i%COLORS.length],life:70+Math.random()*40});
+  }
+  if(!raf) raf=requestAnimationFrame(drawConfetti);
+}
+function drawConfetti(){
+  cx.clearRect(0,0,cv.width,cv.height);
+  parts_=parts_.filter(p=>p.life>0);
+  parts_.forEach(p=>{
+    p.vy+=p.g; p.x+=p.vx; p.y+=p.vy; p.rot+=p.vr; p.life--;
+    cx.save(); cx.translate(p.x,p.y); cx.rotate(p.rot);
+    cx.globalAlpha=Math.max(0,Math.min(1,p.life/40));
+    cx.fillStyle=p.c; cx.fillRect(-p.s/2,-p.s/2,p.s,p.s*.6);
+    cx.restore();
+  });
+  if(parts_.length) raf=requestAnimationFrame(drawConfetti);
+  else { raf=null; cx.clearRect(0,0,cv.width,cv.height); }
+}
+
+/* =====================================================================
+   INIT
+   ===================================================================== */
+function init(){
+  renderDays();
+  renderChips();
+  renderIdeas();
+
+  // events
+  $("#chips").addEventListener("click",e=>{ const b=e.target.closest("[data-chip]"); if(b) setCat(b.dataset.chip); });
+  $("#shuffleBtn").addEventListener("click",shuffle);
+  document.addEventListener("click",e=>{
+    const fw=e.target.closest("#fwCard");
+    if(fw){ const r=fw.getBoundingClientRect(); confetti(r.left+r.width/2, r.top+r.height/2); }
+  });
+
+  tick();
+  setInterval(tick,1000);
+  loadWeather();
+  liveDriveTimes();
+
+  // a little welcome burst
+  setTimeout(()=>confetti(innerWidth/2, innerHeight*0.28), 400);
+}
+init();
+</script>
