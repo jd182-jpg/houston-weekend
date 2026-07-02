@@ -319,8 +319,8 @@ const EVENTS = [
   // ---- Thursday July 2 ----
   { day:0, time:"9:00 PM",  iso:"2026-07-02T21:00:00-05:00", type:"travel",    name:"Parents land at IAH",
     note:"George Bush Intercontinental. Watch the flight, then head over.", lat:29.9902, lon:-95.3368, est:26 },
-  { day:0, time:"10:00 PM", iso:"2026-07-02T22:00:00-05:00", type:"food",      name:"Dinner at Rumi's Kitchen",
-    note:"Persian on Post Oak. Closes 10pm Thursday, so confirm a late seating or keep a backup.", lat:29.7810, lon:-95.4610, est:6 },
+  { day:0, time:"9:45 PM", iso:"2026-07-02T21:45:00-05:00", type:"food",      name:"Dinner at Rumi's Kitchen",
+    note:"Persian on Post Oak, about 5 minutes from the hotel. Reservation at 9:45 PM.", lat:29.7810, lon:-95.4610, est:6 },
 
   // ---- Friday July 3 ----
   { day:1, time:"10:10 AM", iso:"2026-07-03T10:10:00-05:00", type:"workout",   name:"Barry's Bootcamp",
@@ -336,7 +336,7 @@ const EVENTS = [
   { day:2, time:"7:00 PM",  iso:"2026-07-04T19:00:00-05:00", type:"food",      name:"Clark's Oyster Bar",
     note:"Dinner before the fireworks.", lat:29.7420, lon:-95.4560, est:8 },
   { day:2, time:"9:30 PM",  iso:"2026-07-04T21:30:00-05:00", type:"fireworks", name:"Freedom Over Texas fireworks",
-    note:"Over Buffalo Bayou and Allen Parkway.", lat:29.7625, lon:-95.3855, est:15 },
+    note:"The big downtown show over Buffalo Bayou. Closer options: Memorial Park right across the street, or a low-key cookout and fireworks at Henderson and Kane.", lat:29.7625, lon:-95.3855, est:15 },
 
   // ---- Sunday July 5 ----
   { day:3, time:"9:40 AM",  iso:"2026-07-05T09:40:00-05:00", type:"workout",   name:"Barry's Bootcamp",
@@ -412,7 +412,7 @@ const IDEAS = [
   { cat:"Dine", name:"The Rustic", note:"Big patio with live music.", est:18, lat:29.7520, lon:-95.3770 },
   { cat:"Dine", name:"Gypsy Poet", note:"Detroit style pizza, fun room.", est:18, lat:29.7440, lon:-95.3770 },
   { cat:"Dine", name:"Diversion", note:"Cocktail and dessert bar.", est:16, lat:29.7500, lon:-95.3800 },
-  { cat:"Dine", name:"Henderson and Kane", note:"Neighborhood general store and bar.", est:16, lat:29.7750, lon:-95.3900 },
+  { cat:"Dine", name:"Henderson and Kane", note:"Neighborhood general store and bar. Hosting a low-key July 4th cookout and fireworks.", est:16, lat:29.7750, lon:-95.3900 },
   { cat:"Dine", name:"Flora", note:"Lively Mexican dinner spot.", est:15, lat:29.7480, lon:-95.4100 },
   { cat:"Dine", name:"Flight Club", note:"Social darts and drinks.", est:16, lat:29.7580, lon:-95.3900 },
   { cat:"Dine", name:"Permission", note:"Inventive small plates.", est:16, lat:29.7500, lon:-95.4000 },
@@ -522,6 +522,7 @@ const IDEAS = [
 
   // ---- Do (attractions, more) ----
   { cat:"Do", name:"Space Center Houston", note:"NASA mission control and rockets. Plan a half day.", addr:"1601 E NASA Pkwy, Houston, TX 77058", est:38, lat:29.5520, lon:-95.0980 },
+  { cat:"Do", name:"Color Factory", note:"Immersive, interactive color experience. Mom found this one and it looks unique.", addr:"3303 Kirby Dr, Houston, TX 77098", est:12, lat:29.7360, lon:-95.4180 },
   { cat:"Do", name:"Houston Zoo", note:"55 acres inside Hermann Park.", est:18, lat:29.7140, lon:-95.3900 },
   { cat:"Do", name:"Downtown Aquarium", note:"Aquarium, rides, and a Ferris wheel.", est:16, lat:29.7670, lon:-95.3750 },
   { cat:"Do", name:"Buffalo Bayou Cistern", note:"Tours of a stunning underground reservoir.", est:14, lat:29.7600, lon:-95.3930 },
@@ -610,7 +611,7 @@ function fireworksCard(){
       <div>
         <div class="lab">Saturday · Independence Day</div>
         <div class="nm">🎆 Freedom Over Texas</div>
-        <div class="sm">Fireworks at 9:30 PM over Buffalo Bayou. Tap for a burst.</div>
+        <div class="sm">Fireworks at 9:30 PM. Memorial Park across the street is the closest view. Tap for a burst.</div>
         <div class="tap">Tap anywhere on this card 🎉</div>
       </div>
       <div class="cd" id="fwCd"></div>
