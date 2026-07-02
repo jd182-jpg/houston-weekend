@@ -187,6 +187,30 @@
 
   footer{margin-top:44px;text-align:center;color:var(--muted);font-size:12px;font-weight:600}
 
+  /* weather section */
+  .wx-grid{display:grid;grid-template-columns:1.05fr 2fr;gap:16px}
+  .wx-now{background:linear-gradient(135deg,#16233f,#1B4DB1 65%,#2560d6);color:#fff;border-radius:20px;padding:20px;box-shadow:var(--shadow-lift);position:relative;overflow:hidden}
+  .wx-now::after{content:"";position:absolute;right:-30px;bottom:-40px;width:160px;height:160px;border-radius:50%;background:radial-gradient(circle,rgba(228,50,43,.25),transparent 70%)}
+  .wx-now .ic{font-size:38px;position:absolute;top:18px;right:20px}
+  .wx-now .t{font-size:52px;font-weight:900;line-height:1;font-variant-numeric:tabular-nums}
+  .wx-now .cond{font-weight:800;margin-top:4px;opacity:.95;font-size:15px}
+  .wx-now .meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px;position:relative;z-index:1}
+  .wx-now .m{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.2);border-radius:10px;padding:6px 10px;font-size:12px;font-weight:800}
+  .wx-days{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+  .wx-day{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 10px;box-shadow:var(--shadow);text-align:center;transition:transform .18s ease, box-shadow .18s ease}
+  .wx-day:hover{transform:translateY(-3px);box-shadow:var(--shadow-lift)}
+  .wx-day.today{border-color:var(--red);box-shadow:0 0 0 2px rgba(228,50,43,.14),var(--shadow)}
+  .wx-day .d{font-weight:900;font-size:14px}
+  .wx-day .dd{font-size:11px;color:var(--muted);font-weight:700}
+  .wx-day .di{font-size:30px;line-height:1;margin:8px 0 6px}
+  .wx-day .hi{font-weight:900;font-size:17px;font-variant-numeric:tabular-nums}
+  .wx-day .lo{color:var(--muted);font-weight:700;font-size:13px;font-variant-numeric:tabular-nums}
+  .wx-day .pp{margin-top:7px;font-size:11px;font-weight:800;color:var(--blue)}
+  .wx-day .fw-tag{margin-top:6px;font-size:10px;font-weight:900;letter-spacing:.06em;color:var(--red)}
+  .wx-fail{grid-column:1 / -1;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;color:var(--muted);font-weight:600;box-shadow:var(--shadow)}
+  @media (max-width:760px){ .wx-grid{grid-template-columns:1fr} }
+  @media (max-width:560px){ .wx-days{grid-template-columns:1fr 1fr} }
+
   #confetti{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:60}
 
   /* responsive */
@@ -244,6 +268,15 @@
       <div class="actions"><a class="btn btn-ghost" id="nuDir" target="_blank" rel="noopener">Directions ↗</a></div>
     </div>
   </header>
+
+  <!-- ===================== WEATHER ===================== -->
+  <section class="sec">
+    <div class="sec-h"><h2>Weather</h2><div class="rule"></div></div>
+    <div class="wx-grid" id="wxBody">
+      <div class="wx-now" id="wxNow"><div class="cond">Loading forecast...</div></div>
+      <div class="wx-days" id="wxDays"></div>
+    </div>
+  </section>
 
   <!-- ===================== AGENDA ===================== -->
   <section class="sec">
@@ -733,22 +766,68 @@ function tick(){
    ===================================================================== */
 async function loadWeather(){
   const url = "https://api.open-meteo.com/v1/forecast?latitude=29.75&longitude=-95.46"
-    + "&current=temperature_2m,weather_code&daily=temperature_2m_max,temperature_2m_min"
-    + "&temperature_unit=fahrenheit&timezone=America%2FChicago";
+    + "&current=temperature_2m,apparent_temperature,relative_humidity_2m,wind_speed_10m,weather_code"
+    + "&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,sunrise,sunset"
+    + "&temperature_unit=fahrenheit&wind_speed_unit=mph&timezone=America%2FChicago";
   try{
     const ctrl=new AbortController(); const t=setTimeout(()=>ctrl.abort(),7000);
     const r=await fetch(url,{signal:ctrl.signal}); clearTimeout(t);
     const j=await r.json();
-    const cur=Math.round(j.current.temperature_2m);
-    const hi=Math.round(j.daily.temperature_2m_max[0]);
-    const lo=Math.round(j.daily.temperature_2m_min[0]);
-    $("#wNow").textContent = cur+"°";
-    $("#wRange").textContent = `High ${hi}° · Low ${lo}°`;
-    document.querySelector("#weather .ico").textContent = wxIcon(j.current.weather_code);
+    renderWeather(j);
   }catch(e){
     $("#wNow").textContent="--";
     $("#wRange").textContent="Weather offline";
+    $("#wxBody").innerHTML='<div class="wx-fail">Weather is unavailable right now. Check your connection and refresh.</div>';
   }
+}
+function renderWeather(j){
+  const cur=j.current, d=j.daily;
+  // header chip (quick glance)
+  $("#wNow").textContent = Math.round(cur.temperature_2m)+"°";
+  $("#wRange").textContent = `High ${Math.round(d.temperature_2m_max[0])}° · Low ${Math.round(d.temperature_2m_min[0])}°`;
+  document.querySelector("#weather .ico").textContent = wxIcon(cur.weather_code);
+  // current conditions card
+  $("#wxNow").innerHTML = `
+    <span class="ic">${wxIcon(cur.weather_code)}</span>
+    <div class="t">${Math.round(cur.temperature_2m)}°</div>
+    <div class="cond">${wxText(cur.weather_code)}</div>
+    <div class="meta">
+      <span class="m">Feels ${Math.round(cur.apparent_temperature)}°</span>
+      <span class="m">Humidity ${Math.round(cur.relative_humidity_2m)}%</span>
+      <span class="m">Wind ${Math.round(cur.wind_speed_10m)} mph</span>
+      <span class="m">Sunset ${fmtWxTime(d.sunset[0])}</span>
+    </div>`;
+  // four-day forecast, Thu to Sun
+  const todayYmd = new Intl.DateTimeFormat("en-CA",{timeZone:TZ,year:"numeric",month:"2-digit",day:"2-digit"}).format(now());
+  $("#wxDays").innerHTML = DAYS.map(day=>{
+    const i = d.time.indexOf(day.ymd);
+    if(i<0) return "";
+    const isToday = day.ymd===todayYmd;
+    const pp = d.precipitation_probability_max ? d.precipitation_probability_max[i] : null;
+    const fw = day.ymd==="2026-07-04" ? `<div class="fw-tag">Fireworks night</div>` : "";
+    return `<div class="wx-day ${isToday?'today':''}">
+      <div class="d">${day.dow.slice(0,3)}</div>
+      <div class="dd">${day.date}</div>
+      <div class="di">${wxIcon(d.weather_code[i])}</div>
+      <div><span class="hi">${Math.round(d.temperature_2m_max[i])}°</span> <span class="lo">${Math.round(d.temperature_2m_min[i])}°</span></div>
+      <div class="pp">${pp!=null?pp+"% rain":""}</div>
+      ${fw}
+    </div>`;
+  }).join("");
+}
+function fmtWxTime(iso){
+  // Open-Meteo returns local ("America/Chicago") ISO with no offset; format the clock part.
+  const hm=(iso.split("T")[1]||"").split(":"); let h=+hm[0], m=hm[1]||"00";
+  const ap=h>=12?"PM":"AM"; h=h%12||12; return `${h}:${m} ${ap}`;
+}
+function wxText(c){
+  const m={0:"Clear sky",1:"Mainly clear",2:"Partly cloudy",3:"Overcast",45:"Fog",48:"Rime fog",
+    51:"Light drizzle",53:"Drizzle",55:"Heavy drizzle",56:"Freezing drizzle",57:"Freezing drizzle",
+    61:"Light rain",63:"Rain",65:"Heavy rain",66:"Freezing rain",67:"Freezing rain",
+    71:"Light snow",73:"Snow",75:"Heavy snow",77:"Snow grains",
+    80:"Light showers",81:"Showers",82:"Heavy showers",85:"Snow showers",86:"Snow showers",
+    95:"Thunderstorm",96:"Storm with hail",99:"Severe storm"};
+  return m[c]||"Mixed skies";
 }
 function wxIcon(c){
   if(c==null) return "⛅";
